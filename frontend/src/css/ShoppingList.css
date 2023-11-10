@@ -1,0 +1,18 @@
+
+
+.title {
+    text-align: center;
+    background-color: grey;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+}
+
+.total-items {
+    text-align: center;
+    font-weight: lighter;
+}
+
+.items-amount {
+    font-weight: bold;
+}

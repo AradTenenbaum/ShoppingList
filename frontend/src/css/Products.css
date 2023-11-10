@@ -1,0 +1,16 @@
+
+
+.products {
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: thin; 
+    -ms-overflow-style: none; 
+    height: 30vh;
+    width: fit-content;
+    max-width: 60vw;
+    margin: auto;
+}
+
+.products::-webkit-scrollbar {
+    display: none;
+  }
