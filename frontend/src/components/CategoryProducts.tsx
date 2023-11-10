@@ -7,11 +7,16 @@ import {
   ListSubheader,
 } from "@mui/material";
 import "../css/CategoryProducts.css";
+import { Products } from "../interfaces/product.interface";
 
 function CategoryProducts({
   handleVerticalScroll,
+  products,
+  categoryName,
 }: {
   handleVerticalScroll: (e: React.TouchEvent<HTMLDivElement>) => void;
+  products: Products;
+  categoryName: string;
 }) {
   return (
     <div
@@ -19,38 +24,18 @@ function CategoryProducts({
       onScroll={handleVerticalScroll}
     >
       <List>
-        <ListSubheader>{`Dairy - 2 products`}</ListSubheader>
-
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemText primary="Trash" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemText primary="Spam" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemText primary="Spam" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemText primary="Spam" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemText primary="Spam" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemText primary="Spam" />
-          </ListItemButton>
-        </ListItem>
+        <ListSubheader>{categoryName}</ListSubheader>
+        {Object.keys(products).map((productName) => (
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemText
+                primary={`${productName}${
+                  products[productName] > 1 ? ` ${products[productName]}` : ""
+                }`}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
       </List>
     </div>
   );

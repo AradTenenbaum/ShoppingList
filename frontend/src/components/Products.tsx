@@ -1,8 +1,14 @@
 import CategoryProducts from "./CategoryProducts";
 import "../css/Products.css";
 import { useEffect, useRef, useState } from "react";
+import { Categories } from "../interfaces/category.interface";
+import { Container } from "@mui/material";
+import {
+  getObjKeysAmount,
+  getProductsAmountFromCategoriesMap,
+} from "../utils/object";
 
-function Products() {
+function Products({ productsToCategory }: { productsToCategory: Categories }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollDirection, setScrollDirection] = useState(1);
   const [isPaused, setIsPaused] = useState(false);
@@ -10,57 +16,28 @@ function Products() {
   let touchMoveTimeout: ReturnType<typeof setTimeout>;
   let scrollLeft = -1;
 
-  const products = {
-    dairy: {
-      milk: 1,
-      cheese: 2,
-    },
-    vegetables: {
-      cucumber: 1,
-      tomato: 2,
-    },
-    // vegetables1: {
-    //   cucumber: 1,
-    //   tomato: 2,
-    // },
-    // vegetables2: {
-    //   cucumber: 1,
-    //   tomato: 2,
-    // },
-    // vegetables3: {
-    //   cucumber: 1,
-    //   tomato: 2,
-    // },
-    // vegetables4: {
-    //   cucumber: 1,
-    //   tomato: 2,
-    // },
-    // vegetables5: {
-    //   cucumber: 1,
-    //   tomato: 2,
-    // },
-    // vegetables6: {
-    //   cucumber: 1,
-    //   tomato: 2,
-    // },
-  };
-
   useEffect(() => {
     return () => clearTimeout(touchMoveTimeout);
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (!isPaused && scrollRef.current) {
-        if (scrollRef.current.scrollLeft === scrollLeft) {
-          setScrollDirection(scrollDirection * -1);
+    if (Object.keys(productsToCategory).length > 3) {
+      const interval = setInterval(() => {
+        if (!isPaused && scrollRef.current) {
+          const maxScroll =
+            scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+          if (maxScroll > 300) {
+            if (scrollRef.current.scrollLeft === scrollLeft) {
+              setScrollDirection(scrollDirection * -1);
+            }
+            scrollLeft = scrollRef.current.scrollLeft;
+            scrollRef.current.scrollBy(scrollDirection * 2, 0);
+          }
         }
-        scrollLeft = scrollRef.current.scrollLeft;
-        scrollRef.current.scrollBy(scrollDirection * 2, 0);
-      }
-    }, 20);
+      }, 20);
 
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
+    }
   }, [scrollDirection, isPaused]);
 
   const handleMouseEnter = () => {
@@ -86,9 +63,18 @@ function Products() {
       onMouseOver={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {Object.keys(products).map((key) => (
-        <CategoryProducts handleVerticalScroll={handleTouchStart} />
-      ))}
+      {Object.keys(productsToCategory).length > 0 &&
+      getProductsAmountFromCategoriesMap(productsToCategory) > 0 ? (
+        Object.keys(productsToCategory).map((categoryName) => (
+          <CategoryProducts
+            products={productsToCategory[categoryName]}
+            categoryName={categoryName}
+            handleVerticalScroll={handleTouchStart}
+          />
+        ))
+      ) : (
+        <Container>No products yet</Container>
+      )}
     </div>
   );
 }

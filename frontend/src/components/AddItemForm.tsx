@@ -1,9 +1,14 @@
 import { Button, TextField } from "@mui/material";
 
-function AddItemForm() {
-  const categories = ["Fruits", "Vegetables", "Dairy", "Bakery"];
+function AddItemForm({
+  categories,
+  onAddProduct,
+}: {
+  categories: string[];
+  onAddProduct: (name: string, category: string) => void;
+}) {
   return (
-    <form className="">
+    <form className="" onSubmit={() => {}}>
       <TextField
         label="Item Name"
         variant="outlined"
