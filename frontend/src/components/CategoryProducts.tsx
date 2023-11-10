@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import "../css/CategoryProducts.css";
 import { Products } from "../interfaces/product.interface";
+import { getCategoryAmount } from "../utils/object";
 
 function CategoryProducts({
   handleVerticalScroll,
@@ -23,14 +24,17 @@ function CategoryProducts({
       className="category-products-container"
       onScroll={handleVerticalScroll}
     >
+      <div className="category-name">{`${categoryName} - ${getCategoryAmount(
+        products
+      )}`}</div>
       <List>
-        <ListSubheader>{categoryName}</ListSubheader>
         {Object.keys(products).map((productName) => (
-          <ListItem disablePadding>
+          <ListItem disablePadding key={productName}>
             <ListItemButton>
               <ListItemText
+                style={{ textAlign: "center" }}
                 primary={`${productName}${
-                  products[productName] > 1 ? ` ${products[productName]}` : ""
+                  products[productName] > 1 ? ` (${products[productName]})` : ""
                 }`}
               />
             </ListItemButton>

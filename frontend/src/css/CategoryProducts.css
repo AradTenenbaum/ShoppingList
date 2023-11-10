@@ -7,4 +7,9 @@
     overflow-x: hidden;
     overflow-y: auto;
     display: inline-block;
+    text-align: center;
+}
+
+.category-name {
+    text-decoration: underline;
 }

@@ -1,10 +1,12 @@
 import { Container } from "@mui/material";
 import "../css/ShoppingList.css";
-import AddItemForm from "../components/AddItemForm";
+import AddProductForm from "../components/AddProductForm";
 import SeparationLine from "../components/SeparationLine";
 import Products from "../components/Products";
 import { Categories } from "../interfaces/category.interface";
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { addItem } from "../reducers/totalItems";
 
 function ShoppingList() {
   const categories = [
@@ -18,20 +20,32 @@ function ShoppingList() {
   categories.forEach((category) => {
     productObj[category] = {};
   });
+
   const [productsToCategory, setProductsToCategory] =
     useState<Categories>(productObj);
+  const totalItems = useAppSelector((state) => state.totalItems);
+  const dispatch = useAppDispatch();
 
   const onAddProduct = (name: string, category: string) => {
-    console.log(name, category);
+    setProductsToCategory((productsToCategoryTemp) => {
+      const newProductsToCategory = productsToCategoryTemp;
+      if (newProductsToCategory[category][name]) {
+        newProductsToCategory[category][name]++;
+      } else {
+        newProductsToCategory[category][name] = 1;
+      }
+      return { ...newProductsToCategory };
+    });
+    dispatch(addItem());
   };
 
   return (
     <Container maxWidth="md">
       <h1 className="title">Shopping List</h1>
       <h3 className="total-items">
-        Total items: <span className="items-amount">2</span>
+        Total items: <span className="items-amount">{totalItems}</span>
       </h3>
-      <AddItemForm onAddProduct={onAddProduct} categories={categories} />
+      <AddProductForm onAddProduct={onAddProduct} categories={categories} />
       <SeparationLine />
       <Products productsToCategory={productsToCategory} />
     </Container>

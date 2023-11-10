@@ -65,13 +65,19 @@ function Products({ productsToCategory }: { productsToCategory: Categories }) {
     >
       {Object.keys(productsToCategory).length > 0 &&
       getProductsAmountFromCategoriesMap(productsToCategory) > 0 ? (
-        Object.keys(productsToCategory).map((categoryName) => (
-          <CategoryProducts
-            products={productsToCategory[categoryName]}
-            categoryName={categoryName}
-            handleVerticalScroll={handleTouchStart}
-          />
-        ))
+        Object.keys(productsToCategory)
+          .filter(
+            (categoryName) =>
+              getObjKeysAmount(productsToCategory[categoryName]) > 0
+          )
+          .map((categoryName) => (
+            <CategoryProducts
+              key={categoryName}
+              products={productsToCategory[categoryName]}
+              categoryName={categoryName}
+              handleVerticalScroll={handleTouchStart}
+            />
+          ))
       ) : (
         <Container>No products yet</Container>
       )}

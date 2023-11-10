@@ -1,27 +1,38 @@
 import { Button, TextField } from "@mui/material";
+import { useForm } from "../hooks/useForm";
 
-function AddItemForm({
+function AddProductForm({
   categories,
   onAddProduct,
 }: {
   categories: string[];
   onAddProduct: (name: string, category: string) => void;
 }) {
+  const { onChange, onSubmit, Clear, values } = useForm(
+    () => {
+      onAddProduct(values.name, values.category);
+      Clear();
+    },
+    { name: "", category: "" }
+  );
+
   return (
-    <form className="" onSubmit={() => {}}>
+    <form className="" onSubmit={onSubmit}>
       <TextField
         label="Item Name"
         variant="outlined"
-        // value={newItem.name}
-        // onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+        value={values.name}
+        name="name"
+        onChange={onChange}
         fullWidth
         margin="normal"
       />
       <TextField
         select
         label="Category"
-        // value={newItem.category}
-        // onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
+        value={values.category}
+        name="category"
+        onChange={onChange}
         SelectProps={{
           native: true,
         }}
@@ -36,11 +47,11 @@ function AddItemForm({
           </option>
         ))}
       </TextField>
-      <Button variant="contained" color="primary" fullWidth>
+      <Button type="submit" variant="contained" color="primary" fullWidth>
         Add to List
       </Button>
     </form>
   );
 }
 
-export default AddItemForm;
+export default AddProductForm;
