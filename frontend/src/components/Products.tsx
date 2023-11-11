@@ -3,15 +3,21 @@ import "../css/Products.css";
 import { useEffect, useRef, useState } from "react";
 import { Categories } from "../interfaces/category.interface";
 import { Container } from "@mui/material";
-import {
-  getObjKeysAmount,
-  getProductsAmountFromCategoriesMap,
-} from "../utils/object";
+import { getObjKeysAmount } from "../utils/object";
+import { getProductsAmountFromCategoriesMap } from "../utils/functions";
+import { useAppSelector } from "../hooks/reduxHooks";
 
-function Products({ productsToCategory }: { productsToCategory: Categories }) {
+function Products({
+  productsToCategory,
+  onRemoveProduct,
+}: {
+  productsToCategory: Categories;
+  onRemoveProduct: Function;
+}) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollDirection, setScrollDirection] = useState(1);
   const [isPaused, setIsPaused] = useState(false);
+  const totalItems = useAppSelector((state) => state.totalItems);
   const pauseDuration = 15000;
   let touchMoveTimeout: ReturnType<typeof setTimeout>;
   let scrollLeft = -1;
@@ -63,8 +69,7 @@ function Products({ productsToCategory }: { productsToCategory: Categories }) {
       onMouseOver={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {Object.keys(productsToCategory).length > 0 &&
-      getProductsAmountFromCategoriesMap(productsToCategory) > 0 ? (
+      {Object.keys(productsToCategory).length > 0 && totalItems > 0 ? (
         Object.keys(productsToCategory)
           .filter(
             (categoryName) =>
@@ -72,6 +77,7 @@ function Products({ productsToCategory }: { productsToCategory: Categories }) {
           )
           .map((categoryName) => (
             <CategoryProducts
+              onRemoveProduct={onRemoveProduct}
               key={categoryName}
               products={productsToCategory[categoryName]}
               categoryName={categoryName}

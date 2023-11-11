@@ -1,6 +1,7 @@
 import { isCategoryExists } from "../services/category.service";
 import {
   addProductToDataSource,
+  deleteProductFromDataSource,
   getProductsFromDataSource,
 } from "../services/product.service";
 
@@ -26,5 +27,17 @@ export const addProductLogic = async (
   }
 
   await addProductToDataSource(name, category);
+  return { message: "Success" };
+};
+
+export const deleteProductLogic = async (
+  name: string | undefined,
+  category: string | undefined
+) => {
+  if (!name || !category) {
+    return { error: "Missing details" };
+  }
+
+  await deleteProductFromDataSource(name, category);
   return { message: "Success" };
 };

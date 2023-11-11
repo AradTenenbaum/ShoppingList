@@ -1,0 +1,11 @@
+
+
+
+.remove-item {
+    color: black;
+    font-weight: bold;
+    border-radius: 10px;
+    height: fit-content;
+    padding: 10px;
+    cursor: pointer;
+}

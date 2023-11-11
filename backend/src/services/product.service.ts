@@ -23,3 +23,18 @@ export const addProductToDataSource = async (
     await newProduct.save();
   }
 };
+
+export const deleteProductFromDataSource = async (
+  name: string,
+  category: string
+) => {
+  const existingProduct = await getProductFromDataSource(name, category);
+  if (existingProduct) {
+    if (existingProduct.amount === 1) {
+      await ProductModel.deleteOne({ name, category });
+    } else {
+      existingProduct.amount--;
+      await existingProduct.save();
+    }
+  }
+};
