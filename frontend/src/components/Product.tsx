@@ -33,7 +33,7 @@ function Product({
             -
           </div>
         ) : (
-          <div />
+          ""
         )
       }
     >
