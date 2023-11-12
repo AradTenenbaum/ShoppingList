@@ -26,6 +26,7 @@ function AddProductForm({
         onChange={onChange}
         fullWidth
         margin="normal"
+        autoComplete="off"
       />
       <TextField
         select

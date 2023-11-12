@@ -1,6 +1,7 @@
 import { Categories } from "../interfaces/category.interface";
 import { Product, Products } from "../interfaces/product.interface";
 
+// Get the array received from the database and convert it to the categories object
 export const fromDBArrayToCategoriesObject = (
   dbArray: Product[]
 ): Categories => {
@@ -55,6 +56,7 @@ export const removeProductFromCategoriesMap = (
   }
 };
 
+// Get the amount of products in a category
 export const getCategoryAmount = (products: Products) => {
   let amount = 0;
   Object.keys(products).forEach((product) => {
@@ -63,6 +65,7 @@ export const getCategoryAmount = (products: Products) => {
   return amount;
 };
 
+// Get the amount of products from the categories object
 export const getProductsAmountFromCategoriesMap = (categories: Categories) => {
   let amount = 0;
   Object.keys(categories).forEach((category) => {

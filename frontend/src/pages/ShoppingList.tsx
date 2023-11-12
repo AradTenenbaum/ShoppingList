@@ -26,6 +26,7 @@ function ShoppingList() {
 
   useEffect(() => {
     (async () => {
+      // Fetch categories from server and update the state
       const getCategoryResults = await getCategories();
       if (getCategoryResults.error) {
         errorToast(getCategoryResults.error);
@@ -37,6 +38,7 @@ function ShoppingList() {
         );
       }
 
+      // Fetch products from server and update the state
       const getProductsResults = await getProducts();
       if (getProductsResults.error) {
         errorToast(getProductsResults.error);
@@ -58,10 +60,12 @@ function ShoppingList() {
     if (name.length === 0) {
       errorToast("Name cannot be empty");
     } else {
+      // Send add request
       const result = await addProduct(name, category);
       if (result.error) {
         errorToast(result.error);
       } else {
+        // Add product to state
         setProductsToCategory((productsToCategoryTemp) => {
           const newProductsToCategory = productsToCategoryTemp;
           addProductToCategoriesMap(newProductsToCategory, { name, category });
@@ -74,10 +78,12 @@ function ShoppingList() {
   };
 
   const onRemoveProduct = async (name: string, category: string) => {
+    // Send remove request
     const removeProductResults = await deleteProduct(name, category);
     if (removeProductResults.error) {
       errorToast(removeProductResults.error);
     } else {
+      // Removing from the state
       setProductsToCategory((productsToCategoryTemp) => {
         const newProductsToCategory = productsToCategoryTemp;
         removeProductFromCategoriesMap(newProductsToCategory, {

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { Categories } from "../interfaces/category.interface";
 import { Container } from "@mui/material";
 import { getObjKeysAmount } from "../utils/object";
-import { getProductsAmountFromCategoriesMap } from "../utils/functions";
 import { useAppSelector } from "../hooks/reduxHooks";
 
 function Products({
@@ -27,6 +26,9 @@ function Products({
   }, []);
 
   useEffect(() => {
+    // If there are enough categories with products and the horizontal scroll is big enough
+    // This will make the shopping list scroll right and left for a nice
+    // dynamic display of the list.
     if (Object.keys(productsToCategory).length > 3) {
       const interval = setInterval(() => {
         if (!isPaused && scrollRef.current) {
@@ -46,15 +48,16 @@ function Products({
     }
   }, [scrollDirection, isPaused]);
 
+  // Pause the auto scroll when the mouse hover the list
   const handleMouseEnter = () => {
+    clearTimeout(touchMoveTimeout);
     setIsPaused(true);
   };
-
   const handleMouseLeave = () => {
     clearTimeout(touchMoveTimeout);
     touchMoveTimeout = setTimeout(() => setIsPaused(false), pauseDuration);
   };
-
+  // In case of a mobile phone, when touching to screen it will stop the auto scroll
   const handleTouchStart = () => {
     clearTimeout(touchMoveTimeout);
     setIsPaused(true);
