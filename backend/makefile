@@ -1,5 +1,5 @@
-IMAGE_NAME=template_microservice
-CONTAINER_NAME=template
+IMAGE_NAME=shopping-list-backend
+CONTAINER_NAME=shopping-list-backend
 PORT=80
 
 build:
