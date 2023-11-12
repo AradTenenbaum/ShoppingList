@@ -5,13 +5,17 @@ import { Categories } from "../interfaces/category.interface";
 import { Container } from "@mui/material";
 import { getObjKeysAmount } from "../utils/object";
 import { useAppSelector } from "../hooks/reduxHooks";
+import { getSettings } from "../utils/localStorage";
+import { Settings } from "../interfaces/settings.interface";
 
 function Products({
   productsToCategory,
   onRemoveProduct,
+  settings,
 }: {
   productsToCategory: Categories;
   onRemoveProduct: Function;
+  settings: Settings;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollDirection, setScrollDirection] = useState(1);
@@ -29,7 +33,8 @@ function Products({
     // If there are enough categories with products and the horizontal scroll is big enough
     // This will make the shopping list scroll right and left for a nice
     // dynamic display of the list.
-    if (Object.keys(productsToCategory).length > 3) {
+    const autoScroll = settings.autoScroll;
+    if (Object.keys(productsToCategory).length > 3 && autoScroll) {
       const interval = setInterval(() => {
         if (!isPaused && scrollRef.current) {
           const maxScroll =
@@ -46,7 +51,7 @@ function Products({
 
       return () => clearInterval(interval);
     }
-  }, [scrollDirection, isPaused]);
+  }, [scrollDirection, isPaused, productsToCategory, settings]);
 
   // Pause the auto scroll when the mouse hover the list
   const handleMouseEnter = () => {

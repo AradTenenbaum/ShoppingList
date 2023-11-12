@@ -17,10 +17,14 @@ import {
   getProductsAmountFromCategoriesMap,
   removeProductFromCategoriesMap,
 } from "../utils/functions";
+import SettingsModal from "../components/SettingsModal";
+import { getSettings } from "../utils/localStorage";
 
 function ShoppingList() {
   const [categories, setCategories] = useState<string[]>([]);
   const [productsToCategory, setProductsToCategory] = useState<Categories>({});
+  const [openSettingsModal, setOpenSettingsModal] = useState(false);
+  const [settings, setSettings] = useState(getSettings());
   const totalItems = useAppSelector((state) => state.totalItems);
   const dispatch = useAppDispatch();
 
@@ -57,18 +61,23 @@ function ShoppingList() {
   }, []);
 
   const onAddProduct = async (name: string, category: string) => {
-    if (name.length === 0) {
+    // Remove spaces from start and end of the name
+    const trimmedName = name.trim();
+    if (trimmedName.length === 0) {
       errorToast("Name cannot be empty");
     } else {
       // Send add request
-      const result = await addProduct(name, category);
+      const result = await addProduct(trimmedName, category);
       if (result.error) {
         errorToast(result.error);
       } else {
         // Add product to state
         setProductsToCategory((productsToCategoryTemp) => {
           const newProductsToCategory = productsToCategoryTemp;
-          addProductToCategoriesMap(newProductsToCategory, { name, category });
+          addProductToCategoriesMap(newProductsToCategory, {
+            name: trimmedName,
+            category,
+          });
           return { ...newProductsToCategory };
         });
         dispatch(addItem());
@@ -111,19 +120,37 @@ function ShoppingList() {
   };
 
   return (
-    <Container maxWidth="md">
-      <h1 className="title">Shopping List</h1>
-      <h3 className="total-items">
-        Total items: <span className="items-amount">{totalItems}</span>
-      </h3>
-      <AddProductForm onAddProduct={onAddProduct} categories={categories} />
-      <SeparationLine />
-      <Products
-        productsToCategory={productsToCategory}
-        onRemoveProduct={onRemoveProduct}
+    <div>
+      <div className="title-bar">
+        <button
+          onClick={() => setOpenSettingsModal(true)}
+          className="settings-button"
+        >
+          ⚙
+        </button>
+        <h1 className="title">Shopping List</h1>
+        <div className="spacer"></div>
+      </div>
+      <Container maxWidth="md">
+        <h3 className="total-items">
+          Total items: <span className="items-amount">{totalItems}</span>
+        </h3>
+        <AddProductForm onAddProduct={onAddProduct} categories={categories} />
+        <SeparationLine />
+        <Products
+          productsToCategory={productsToCategory}
+          onRemoveProduct={onRemoveProduct}
+          settings={settings}
+        />
+        <ToastContainer />
+      </Container>
+      <SettingsModal
+        open={openSettingsModal}
+        setSettings={setSettings}
+        settings={settings}
+        handleClose={() => setOpenSettingsModal(false)}
       />
-      <ToastContainer />
-    </Container>
+    </div>
   );
 }
 

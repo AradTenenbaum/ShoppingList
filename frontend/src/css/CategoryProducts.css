@@ -4,10 +4,15 @@
     height: 30vh;
     width: 200px;
     margin: 0px 10px;
+    text-align: center;
+    display: inline-block;
+}
+
+.list-container {
+    height: 30vh;
+    width: 200px;
     overflow-x: hidden;
     overflow-y: auto;
-    display: inline-block;
-    text-align: center;
 }
 
 .category-name {

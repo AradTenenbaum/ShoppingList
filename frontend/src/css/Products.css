@@ -5,12 +5,26 @@
     white-space: nowrap;
     scrollbar-width: thin; 
     -ms-overflow-style: none; 
-    height: 30vh;
     width: fit-content;
     max-width: 100%;
     margin: auto;
 }
 
-.products::-webkit-scrollbar {
-    display: none;
+
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px; 
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+  
+  ::-webkit-scrollbar {
+    height: 5px; 
   }

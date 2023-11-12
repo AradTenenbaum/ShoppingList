@@ -24,23 +24,23 @@ function CategoryProducts({
   onRemoveProduct: Function;
 }) {
   return (
-    <div
-      className="category-products-container"
-      onScroll={handleVerticalScroll}
-    >
+    <div className="category-products-container">
       <div className="category-name">{`${categoryName} - ${getCategoryAmount(
         products
       )}`}</div>
-      <List>
-        {Object.keys(products).map((productName) => (
-          <Product
-            name={productName}
-            category={categoryName}
-            amount={products[productName]}
-            onRemoveProduct={onRemoveProduct}
-          />
-        ))}
-      </List>
+      <div className="list-container" onScroll={handleVerticalScroll}>
+        <List>
+          {Object.keys(products).map((productName) => (
+            <Product
+              key={productName}
+              name={productName}
+              category={categoryName}
+              amount={products[productName]}
+              onRemoveProduct={onRemoveProduct}
+            />
+          ))}
+        </List>
+      </div>
     </div>
   );
 }
