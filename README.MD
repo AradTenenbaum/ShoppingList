@@ -20,10 +20,10 @@ There are a few options to run it:
 
 2.  **Run as development**: Click on `start-dev.bat` and it will install the backend and frontend dependencies and run the application. The frontend will run on `http://127.0.0.1:3000` (requirements: Windows OS, NodeJS)
 
-3.  **Run manually**: You can run cmd from each folder: `./frontend` and `./backend` and run: \
+3.  **Run manually**: You can run cmd from each folder: `./frontend` and `./backend` and run:
     - From the backend: \
       a. `npm i` \
-      b. `npm run dev` \
+      b. `npm run dev`
     - From the frontend: \
        a. `npm i` \
        b. `npm start` \
