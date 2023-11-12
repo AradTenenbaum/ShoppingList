@@ -10,7 +10,7 @@ The **Database** I used for the task is mongoDB that is running on mongo atlas c
 First you need to clone the project using this command:
 
 ```bash
-git  clone  https://github.com/AradTenenbaum/ShoppingList.git
+git clone https://github.com/AradTenenbaum/ShoppingList.git
 ```
 
 Next, go to the folder that you ran the command from and go in to the project.
